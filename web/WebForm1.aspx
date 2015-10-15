@@ -12,7 +12,7 @@
             var _specal = ["$", "(", ")", "\\"];
             this.Build = function (func) {
                 var functionString = func.toString();
-                var regex = /(?:var)?[ ]*([\S]*?)[ ]*?=?[ ]*?_\$Async\([\w\W]+?\);/g;
+                var regex = /(?:var)?[ ]*([\S]*?)[ ]*?=?[ ]*?(_\$Async\([\w\W]+?\));/g;
                 var groups = functionString.match(regex);
                 var result = "";
                 var prev = "";
@@ -21,12 +21,17 @@
                     var item = groups[i];
                     var matchArray = regex.exec(item);
                     next = matchArray[0];
-                    result += next;
+                    var variableName = matchArray[1];
+                    var ajaxExpression = matchArray[2];
                     if (prev != _stringEmpty) {
                         functionString = functionString.replace(prev, _stringEmpty);
                         var regexOther = eval("/(?:function[\\s]*\\(\\)[\\s]*{[ ]*([\\w\\W]+?)" + _SpecalFontChange(next.trim()) + ")/");
-                        var j = regexOther.exec(functionString);
+                        var matchFunctionArray = regexOther.exec(functionString);
+                        if (matchFunctionArray.length == 2) {
+                            var defineExpression = matchFunctionArray[1];
+                        }
                     }
+                    result += next;
                     prev = next;
 
 
