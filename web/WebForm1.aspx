@@ -11,6 +11,7 @@
         AsyncJs = function () {
             var _stringEmpty = "";
             var _specal = ["$", "(", ")", "\\"];
+            var _debug = true;
             this.Build = function (func) {
                 var functionString = func.toString();
                 var regex = /(?:var[\s]*[\S]+[\s]*[=][\s]*?|[\S]+[\s]*[=][\s]*?|)_\$Async/g;
@@ -35,7 +36,10 @@
                     };
                     container.push(item);
                 }
-                return _BuildFunction(container);
+                var result = _BuildFunction(container);
+                if (_debug)
+                    console.log(_debug);
+                return result;
             }
             function _BuildFunction(options) {
                 var thisNode = "";
