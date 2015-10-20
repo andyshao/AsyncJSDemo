@@ -6,51 +6,72 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
+    <script src="jquery-1.8.2.min.js"></script>
     <script>
         AsyncJs = function () {
             var _stringEmpty = "";
             var _specal = ["$", "(", ")", "\\"];
             this.Build = function (func) {
                 var functionString = func.toString();
-                var regex = /(?:var)?[ ]*([\S]*?)[ ]*?=?[ ]*?(_\$Async\([\w\W]+?\));/g;
+                var regex = /(?:var[\s]*[\S]+[\s]*[=][\s]*?|[\S]+[\s]*[=][\s]*?|)_\$Async/g;
                 var groups = functionString.match(regex);
-                var result = "";
-                var prev = "";
-                var next = "";
-                for (var i in groups) {
-                    var item = groups[i];
-                    var matchArray = regex.exec(item);
-                    next = matchArray[0];
-                    var variableName = matchArray[1];
-                    var ajaxExpression = matchArray[2];
-                    if (prev != _stringEmpty) {
-                        functionString = functionString.replace(prev, _stringEmpty);
-                        var regexOther = eval("/(?:function[\\s]*\\(\\)[\\s]*{[ ]*([\\w\\W]+?)" + _SpecalFontChange(next.trim()) + ")/");
-                        var matchFunctionArray = regexOther.exec(functionString);
-                        if (matchFunctionArray.length == 2) {
-                            var defineExpression = matchFunctionArray[1];
-                        }
-                    }
-                    result += next;
-                    prev = next;
-
-
-                    //if (matchArray.length == 2) {
-                    //    next = matchArray[1];
-                    //    if (next != _stringEmpty) {
-                    //        if (prev != _stringEmpty) {
-                    //            result = prev + next;
-                    //        }
-                    //        prev = next;
-                    //    }
-                    //}
-                    regex.lastIndex = 0;
+                var container = [];
+                for (var i = 0; i < groups.length; i++) {
+                    var thisItem = groups[i];
+                    var nextItem = i + 1 == groups.length ? null : groups[i + 1];
+                    var dynamicRegex;
+                    if (nextItem != null)
+                        dynamicRegex = eval("/(" + _SpecalFontChange(thisItem) + "([\\w\\W]+?))" + _SpecalFontChange(nextItem) + "/");
+                    else
+                        dynamicRegex = eval("/(" + _SpecalFontChange(thisItem) + "([\\w\\W]+))}/");
+                    var funcPara = dynamicRegex.exec(functionString);
+                    var funcFullInfo = funcPara[1];
+                    var funcParamer = funcPara[2];
+                    var callBackPara = /(?:var|)[\s]*([\w\W]*?)[=]?[\s]*_\$Async/.exec(thisItem)[1];
+                    functionString = functionString.replace(funcFullInfo, "");
+                    var item = {
+                        callback: $.trim(callBackPara),
+                        expression: $.trim(funcParamer)
+                    };
+                    container.push(item);
                 }
-                functionString = _$Async.toString() + "(" + functionString + ")()";
-                return functionString;
+                return _BuildFunction(container);
             }
-            function _$Async(option) {
-
+            function _BuildFunction(options) {
+                var thisNode = "";
+                var result = "";
+                for (var i = options.length - 1; i >= 0; i--) {
+                    var item = options[i];
+                    thisNode = "_$Async" + item.expression;
+                    result = thisNode.match(/([\w\W]+)\);/)[1] + ",\r\n" + "function(){" + result + "}";
+                    if (item.callback != _stringEmpty)
+                        result = result + "," + item.callback + ",\"" + item.callback + "\"";
+                    result += ")";
+                }
+                return "(function(){ " + result + " })();" + _$Async.toString() + "";
+            }
+            function _$Async(option, callback, inputdata, name) {
+                if (typeof option == "function") {
+                    var _$result = option() || "";
+                    eval(name + "=\"" + _$result + "\"");
+                    callback();
+                }
+                else {
+                    var temp = option.success;
+                    var success = function (data) {
+                        var val;
+                        if (temp != null) {
+                            val = temp(data);
+                        }
+                        val = val || _stringEmpty;
+                        if (typeof val == "String")
+                            val = "\"" + val + "\"";
+                        eval(name + "=val");
+                        callback();
+                    };
+                    option.success = success;
+                    $.ajax(option);
+                }
             }
             function _SpecalFontChange(inputstr) {
                 var result = "";
@@ -68,13 +89,29 @@
 
         function Show() {
             var async = new AsyncJs();
-            var a = "1";
+            var url = "WebForm1.aspx?action=ajax";
+            var option = null;
             var r = async.Build(function () {
-                var result = _$Async({ url: "\\()@#$" });
-                var a = result.data;
-                result = _$Async({ url: a });
-                _$Async({ url: a });
-            })
+                option = _$Async(
+                {
+                    url: url + "&val=ajax1",
+                    success: function (a) {
+                        alert("success");
+                        return a;
+                    }
+                });
+                option = _$Async(
+                {
+                    url: url + "&val=ajax2",
+                    success: function (a) {
+                        alert(option);
+                        return a;
+                    }
+                });
+                _$Async(function () {
+                    alert(result);
+                });
+            });
             eval(r);
         }
 

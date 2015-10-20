@@ -3,3 +3,8 @@ C:\Users\leung\documents\visual studio 2012\Projects\ConsoleApplication2\web\bin
 C:\Users\leung\documents\visual studio 2012\Projects\ConsoleApplication2\web\obj\Debug\web.csprojResolveAssemblyReference.cache
 C:\Users\leung\documents\visual studio 2012\Projects\ConsoleApplication2\web\obj\Debug\web.dll
 C:\Users\leung\documents\visual studio 2012\Projects\ConsoleApplication2\web\obj\Debug\web.pdb
+C:\Users\Administrator\Desktop\AsyncJS\web\bin\web.dll.config
+C:\Users\Administrator\Desktop\AsyncJS\web\bin\web.dll
+C:\Users\Administrator\Desktop\AsyncJS\web\bin\web.pdb
+C:\Users\Administrator\Desktop\AsyncJS\web\obj\Debug\web.dll
+C:\Users\Administrator\Desktop\AsyncJS\web\obj\Debug\web.pdb
