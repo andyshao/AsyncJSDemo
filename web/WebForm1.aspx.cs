@@ -12,8 +12,6 @@ namespace web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            decimal d = 9999999.00000M;
-            var r = String.Format("{0:N2}", d);
             string action = Request.QueryString["action"];
             string val = Request.QueryString["val"];
             if (action == "ajax")
