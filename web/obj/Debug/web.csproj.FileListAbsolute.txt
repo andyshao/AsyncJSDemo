@@ -9,3 +9,9 @@ C:\Users\Administrator\Desktop\AsyncJS\web\bin\web.pdb
 C:\Users\Administrator\Desktop\AsyncJS\web\obj\Debug\web.dll
 C:\Users\Administrator\Desktop\AsyncJS\web\obj\Debug\web.pdb
 C:\Users\Administrator\Desktop\AsyncJS\web\obj\Debug\web.csprojResolveAssemblyReference.cache
+D:\AsyncJS\web\bin\web.dll.config
+D:\AsyncJS\web\bin\web.dll
+D:\AsyncJS\web\bin\web.pdb
+D:\AsyncJS\web\obj\Debug\web.csprojResolveAssemblyReference.cache
+D:\AsyncJS\web\obj\Debug\web.dll
+D:\AsyncJS\web\obj\Debug\web.pdb

@@ -22,26 +22,26 @@
                         return data;
                     }
                 });
-                var result2 = _$Async(
-                {
-                    url: url,
-                    data: { "val": "ajax2" },
-                    success: function (data) {
-                        alert("success:" + data);
-                        return { data: data };
-                    }
-                });
-                _$Async(function () {
-                    alert("2 ajax retun values=" + result1 + "|" + result2.data);
-                });
-                _$Async(
-                {
-                    url: url,
-                    data: { "val": result1 + result2.data },
-                    success: function (data) {
-                        alert(data);
-                    }
-                });
+
+                //var result2 = _$Async(
+                //{
+                //    url: url,
+                //    data: { "val": "ajax2" },
+                //    success: function (data) {
+                //        alert("success:" + data);
+                //        return { data: data };
+                //    }
+                //});
+                //_$Async(function () {
+                //    alert("2 ajax retun values=" + result1 + "|" + result2.data);
+                //});
+                //_$Async(
+                //{
+                //    url: url,
+                //    data: { "val": result1 + result2.data },
+                //    success: function (data) {
+                //        alert(data);
+                //    }
             });
             eval(str);
         }

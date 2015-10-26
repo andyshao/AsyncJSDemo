@@ -4,6 +4,7 @@
     var _debug = true;
     this.Build = function (func) {
         var functionString = func.toString();
+        functionString = _RemoveNoteString(functionString);
         var regex = /(?:var[\s]*[\S]+[\s]*[=][\s]*?|[\S]+[\s]*[=][\s]*?|)_\$Async/g;
         var groups = functionString.match(regex);
         var container = [];
@@ -84,5 +85,15 @@
             result += item;
         }
         return result;
+    }
+    //取出注释(remove note)
+    function _RemoveNoteString(inputstr) {
+        var matchArray = inputstr.match(/[\w\W]+?(?:\r|\n)/g);
+        for (var i in matchArray) {
+            var item = matchArray[i];
+            if (/^\/\/[\w\W]*$/.test($.trim(item)))
+                inputstr = inputstr.replace(item, "");
+        }
+        return inputstr;
     }
 }
