@@ -75,6 +75,7 @@
             $.ajax(_$option);
         }
     }
+    //转移特殊字符
     function _SpecalFontChange(inputstr) {
         var result = "";
         for (var index in inputstr) {
@@ -86,7 +87,7 @@
         }
         return result;
     }
-    //取出注释(remove note)
+    //移除注释(remove note)
     function _RemoveNoteString(inputstr) {
         var matchArray = inputstr.match(/[\w\W]+?(?:\r|\n)/g);
         for (var i in matchArray) {
