@@ -10,49 +10,42 @@
     <script src="AsyncJavaScript.js"></script>
     <script>
         function Show() {
-            var async = new AsyncJs();
-            var url = "WebForm1.aspx?action=ajax";
-            var str = async.Build(function () {
-                var result1 = _$Async(
-                {
+            var js = new AsyncJs();
+            var url = "WebForm1.aspx";
+            var func = js.Build(function () {
+                _$Async(function () {
+                    alert("点击后开始第一次ajax请求");
+                });
+                _$Async({
                     url: url,
-                    data: { "val": "ajax1" },
+                    data: { val: "第一次ajax请求" },
                     success: function (data) {
-                        alert("success:" + data);
+                        alert("第一次请求结束，结果:" + data);
+                    }
+                });
+                _$Async(function () {
+                    alert("点击后开始第二次ajax请求");
+                });
+                var result = _$Async({
+                    url: url,
+                    data: { val: "第二次ajax请求" },
+                    success: function (data) {
                         return data;
                     }
                 });
-
-                //var result2 = _$Async(
-                //{
-                //    url: url,
-                //    data: { "val": "ajax2" },
-                //    success: function (data) {
-                //        alert("success:" + data);
-                //        return { data: data };
-                //    }
-                //});
-                //_$Async(function () {
-                //    alert("2 ajax retun values=" + result1 + "|" + result2.data);
-                //});
-                //_$Async(
-                //{
-                //    url: url,
-                //    data: { "val": result1 + result2.data },
-                //    success: function (data) {
-                //        alert(data);
-                //    }
+                _$Async(function () {
+                    alert("第二次请求结束，结果:" + result);
+                });
+                
             });
-            eval(str);
+            eval(func);
         }
-
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
         <div>
-            <input type="button" onclick="Show()" value="aaa" />
-            <input type="text" />
+            <input type="button" onclick="Show()" value="查询" />
         </div>
     </form>
 </body>
