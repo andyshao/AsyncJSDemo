@@ -36,7 +36,7 @@
                 _$Async(function () {
                     alert("第二次请求结束，结果:" + result);
                 });
-                
+
             });
             eval(func);
         }
@@ -46,6 +46,7 @@
     <form id="form1" runat="server">
         <div>
             <input type="button" onclick="Show()" value="查询" />
+            <input type="text" />
         </div>
     </form>
 </body>
